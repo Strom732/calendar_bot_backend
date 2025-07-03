@@ -63,8 +63,17 @@ def book_appointment(data: BookingRequest):
 # Chat agent endpoint
 @app.post("/chat")
 def chat_with_agent(data: ChatRequest):
+    user_input = data.user_input.strip().lower()
+
+    # Respond to greetings or vague input
+    greetings = ["hi", "hello", "hey", "yo", "good morning", "good evening"]
+    if any(greet in user_input for greet in greetings):
+        return {
+            "response": "👋 Hello! I can help you book meetings on your calendar.\n\nTry saying something like:\n\n`Book a meeting with Abhi on 2025-07-03 at 15:00 for 30 minutes`"
+        }
+
     try:
         response = agent.invoke({"input": data.user_input})
-        return {"response": response.get("output")}
+        return {"response": response.get("output", "Hmm... I didn't understand that. Can you rephrase?")}
     except Exception as e:
         return {"error": str(e)}
