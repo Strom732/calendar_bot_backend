@@ -92,5 +92,9 @@ agent = initialize_agent(
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     memory=memory,
     verbose=True,
-    agent_kwargs={"prompt": prompt}
+    agent_kwargs={
+        "prompt": prompt,
+        "max_iterations": 10,
+        "max_execution_time": 60  # seconds
+    }
 )
